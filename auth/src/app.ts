@@ -18,7 +18,12 @@ app.use(json());
 app.use(
   cookieSession({
     signed: false,
-    secure: true,
+    // jest and superTest use plain HTTP request
+    // But the secure property in cookieSession when turned to true
+    // Accepts only HTTPS requests
+    // For this reason we gonna change the secure property to false
+    // When we are in a test environment
+    secure: process.env.NODE_ENV !== "test",
   })
 );
 
