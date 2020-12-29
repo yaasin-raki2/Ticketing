@@ -1,3 +1,3 @@
 export default () => {
-  return <h1>Bananas are awesom UwU</h1>;
+  return <h1>Bananas arn't awesom UwU</h1>;
 };
