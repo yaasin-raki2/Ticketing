@@ -2,13 +2,12 @@ import express from "express";
 import "express-async-errors";
 import { json } from "body-parser";
 import cookieSession from "cookie-session";
+import { errorHandler, NotFoundError } from "@yrtickets/common";
 
 import { currentUserRoouter } from "./routes/current-user";
 import { signoutRouter } from "./routes/signout";
 import { signupRouter } from "./routes/signup";
 import { signinRouter } from "./routes/signin";
-import { errorHandler } from "./middlewares/error-handler";
-import { NotFoundError } from "./errors/not-found-error";
 
 const app = express();
 
