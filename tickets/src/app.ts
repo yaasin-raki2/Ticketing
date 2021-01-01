@@ -21,7 +21,7 @@ app.use(
   })
 );
 
-app.get("*", async () => {
+app.all("*", async () => {
   throw new NotFoundError();
 });
 

@@ -31,7 +31,7 @@ app.use(signoutRouter);
 app.use(signupRouter);
 app.use(signinRouter);
 
-app.get("*", async () => {
+app.all("*", async () => {
   throw new NotFoundError();
 });
 
