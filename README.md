@@ -1,2 +1,2 @@
 # Ticketing
-A Complex Microservices Archetecture app
+A Complex Microservices Architecture app
