@@ -31,7 +31,7 @@ router.post(
       id: ticket.id!,
       title: ticket.title,
       price: ticket.price,
-      userId: req.currentUser!.id,
+      userId: ticket.userId,
     });
 
     res.status(201).send(ticket);
