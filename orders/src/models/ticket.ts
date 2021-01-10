@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+import { Order, OrderStatus } from "./orders";
+
 interface TicketAttrs {
   title: string;
   price: number;
@@ -8,6 +10,7 @@ interface TicketAttrs {
 interface TicketDoc extends mongoose.Document {
   title: string;
   price: number;
+  isRserved(): Promise<boolean>;
 }
 
 interface TicketModel extends mongoose.Model<TicketDoc> {
@@ -35,6 +38,18 @@ const ticketSchema = new mongoose.Schema(
     },
   }
 );
+
+ticketSchema.methods.isReserved = async function () {
+  // this === the ticket document that we just called "isReserved" on
+  const existingOrder = await Order.findOne({
+    ticket: this,
+    status: {
+      $in: [OrderStatus.Created, OrderStatus.AwaitingPayement, OrderStatus.Complete],
+    },
+  });
+  // convert what existingOrder return to booleans based on their values
+  return !!existingOrder;
+};
 
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
   return new Ticket(attrs);
