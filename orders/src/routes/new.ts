@@ -4,6 +4,7 @@ import { body } from "express-validator";
 import {
   BadRequestError,
   NotFoundError,
+  OrderStatus,
   requireAuth,
   validateRequest,
 } from "@yrtickets/common";
@@ -12,6 +13,8 @@ import { Order } from "../models/orders";
 import { Ticket } from "../models/ticket";
 
 const router = express.Router();
+
+const EXPIRATION_WINDOW_SECONDS = 15 * 60;
 
 router.post(
   "/api/orders",
@@ -46,12 +49,21 @@ router.post(
     }
 
     // Calculate an expiration date for this order
+    const expirarion = new Date();
+    expirarion.setSeconds(expirarion.getSeconds() + EXPIRATION_WINDOW_SECONDS);
 
     // Build the order and save it to the database
+    const order = Order.build({
+      userId: req.currentUser!.id,
+      status: OrderStatus.Created,
+      expiresAt: expirarion,
+      ticket: ticket,
+    });
+    await order.save();
 
     // Publish an event saying that an order was created
 
-    res.send();
+    res.status(201).send(order);
   }
 );
 
