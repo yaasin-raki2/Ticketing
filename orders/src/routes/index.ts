@@ -1,9 +1,17 @@
 import express, { Request, Response } from "express";
+import { requireAuth } from "@yrtickets/common";
+
+import { Order } from "../models/orders";
 
 const router = express.Router();
 
-router.get("/api/orders", (req: Request, res: Response) => {
-  res.send();
+router.get("/api/orders", requireAuth, async (req: Request, res: Response) => {
+  // fetch all orders and send them back
+  const orders = await Order.find({
+    userId: req.currentUser!.id,
+  }).populate("ticket");
+
+  res.send(orders);
 });
 
 export { router as indexOrderRouter };

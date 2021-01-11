@@ -95,3 +95,5 @@ it("reserves a ticket", async () => {
   expect(response.body.userId).toBeDefined();
   expect(response.body.ticket.price).toEqual(20);
 });
+
+it.todo("emits an order:created event");
