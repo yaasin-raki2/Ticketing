@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { OrderStatus } from "@yrtickets/common";
 
-import { TicketDoc } from "./ticket";
+import { Ticket, TicketDoc } from "./ticket";
 
 export { OrderStatus };
 
@@ -39,7 +39,7 @@ const orderSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.Date,
     },
     ticket: {
-      ticket: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Ticket",
     },
   },

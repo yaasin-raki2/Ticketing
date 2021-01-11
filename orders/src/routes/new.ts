@@ -42,7 +42,7 @@ router.post(
     // Find an order where the ticket is the ticket we just found
     // && the orders status is not! cancelled
     // If we find an order from this , it means that the ticket *is* reserved
-    const isReserved = await ticket.isRserved();
+    const isReserved = await ticket.isReserved();
 
     if (isReserved) {
       throw new BadRequestError("Ticket is already reserved");
