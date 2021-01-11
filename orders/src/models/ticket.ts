@@ -39,18 +39,6 @@ const ticketSchema = new mongoose.Schema(
   }
 );
 
-ticketSchema.methods.isReserved = async function () {
-  // this === the ticket document that we just called "isReserved" on
-  const existingOrder = await Order.findOne({
-    ticket: this,
-    status: {
-      $in: [OrderStatus.Created, OrderStatus.AwaitingPayement, OrderStatus.Complete],
-    },
-  });
-  // convert what existingOrder return to booleans based on their values
-  return !!existingOrder;
-};
-
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
   return new Ticket(attrs);
 };
