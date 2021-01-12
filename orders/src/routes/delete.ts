@@ -35,6 +35,8 @@ router.delete(
     order.status = OrderStatus.Cancelled;
     await order.save();
 
+    // Publishing an event saying this was cancelled
+
     res.send(order);
   }
 );
