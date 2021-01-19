@@ -5,6 +5,7 @@ import { app } from "../../app";
 
 import { Order, OrderStatus } from "../../models/orders";
 import { Ticket } from "../../models/ticket";
+import { natsWrapper } from "../../nats-wrapper";
 
 it("returns 401 if the user is not authenticated", async () => {
   const id = new mongoose.Types.ObjectId().toHexString();
@@ -96,4 +97,20 @@ it("reserves a ticket", async () => {
   expect(response.body.ticket.price).toEqual(20);
 });
 
-it.todo("emits an order:created event");
+it("emits an order:created event", async () => {
+  const ticket = Ticket.build({
+    title: "title",
+    price: 20,
+  });
+  await ticket.save();
+
+  await request(app)
+    .post("/api/orders")
+    .set("Cookie", global.signin())
+    .send({
+      ticketId: ticket.id,
+    })
+    .expect(201);
+
+  expect(natsWrapper.client.publish).toHaveBeenCalled();
+});
