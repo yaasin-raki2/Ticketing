@@ -9,6 +9,8 @@ import {
 } from "@yrtickets/common";
 
 import { Order, OrderStatus } from "../models/orders";
+import { natsWrapper } from "../nats-wrapper";
+import { OrderCancelledPublisher } from "../events/publishers/order-cancelled-publisher";
 
 const router = express.Router();
 
@@ -36,6 +38,12 @@ router.delete(
     await order.save();
 
     // Publishing an event saying this was cancelled
+    new OrderCancelledPublisher(natsWrapper.client).publish({
+      id: order.id,
+      ticket: {
+        id: order.ticket.id,
+      },
+    });
 
     res.send(order);
   }
