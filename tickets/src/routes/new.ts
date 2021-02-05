@@ -29,6 +29,7 @@ router.post(
     // Send data to Nats so that other services can recieve it as an event
     await new TicketCreatedPublisher(natsWrapper.client).publish({
       id: ticket.id!,
+      version: ticket.version,
       title: ticket.title,
       price: ticket.price,
       userId: ticket.userId,
