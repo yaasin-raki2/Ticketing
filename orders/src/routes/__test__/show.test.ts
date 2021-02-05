@@ -23,6 +23,7 @@ it("returns 404 if provided a valid id for a non existing order", async () => {
 
 it("returns 401 if a user tries to fetch another user's order", async () => {
   const ticket = Ticket.build({
+    id: mongoose.Types.ObjectId().toHexString(),
     title: "title",
     price: 20,
   });
@@ -47,6 +48,7 @@ it("returns an order of a specific user when providing the order's id", async ()
   const userId = global.signin();
 
   const ticket = Ticket.build({
+    id: mongoose.Types.ObjectId().toHexString(),
     title: "title",
     price: 20,
   });

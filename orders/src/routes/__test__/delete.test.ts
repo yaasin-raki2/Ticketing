@@ -25,6 +25,7 @@ it("returns 404 if provided a valid id for a non existing order", async () => {
 
 it("returns 401 if a user tries to delete another user's order", async () => {
   const ticket = Ticket.build({
+    id: mongoose.Types.ObjectId().toHexString(),
     title: "title",
     price: 20,
   });
@@ -50,6 +51,7 @@ it("Marks an order as cancelled", async () => {
   const user = global.signin();
 
   const ticket = Ticket.build({
+    id: mongoose.Types.ObjectId().toHexString(),
     title: "title",
     price: 20,
   });
@@ -79,6 +81,7 @@ it("Emits an order cancelled event", async () => {
   const user = global.signin();
 
   const ticket = Ticket.build({
+    id: mongoose.Types.ObjectId().toHexString(),
     title: "title",
     price: 20,
   });
