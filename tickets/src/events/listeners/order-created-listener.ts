@@ -3,6 +3,7 @@ import { Listener, Subjects, OrderCreatedEvent } from "@yrtickets/common";
 
 import { queueGroupName } from "./queue-group-name";
 import { Ticket } from "../../models/ticket";
+import { TicketUpdatedPublisher } from "../publishers/ticket-updated-publisher";
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
   subject: Subjects.OrderCreated = Subjects.OrderCreated;
@@ -21,6 +22,16 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
 
     //Save the ticket
     await ticket.save();
+
+    //Publish an event to NATS
+    await new TicketUpdatedPublisher(this.client).publish({
+      id: ticket.id,
+      version: ticket.version,
+      title: ticket.title,
+      price: ticket.prive,
+      userId: ticket.userId,
+      orderId: ticket.orderId,
+    });
 
     //Acknowledge the message to NATS
     msg.ack();
