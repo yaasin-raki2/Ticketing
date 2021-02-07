@@ -28,7 +28,7 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
       id: ticket.id,
       version: ticket.version,
       title: ticket.title,
-      price: ticket.prive,
+      price: ticket.price,
       userId: ticket.userId,
       orderId: ticket.orderId,
     });
