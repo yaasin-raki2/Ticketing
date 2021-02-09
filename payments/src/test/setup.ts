@@ -1,6 +1,5 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
-import request from "supertest";
 import jwt from "jsonwebtoken";
 
 import { app } from "../app";
@@ -8,7 +7,7 @@ import { app } from "../app";
 declare global {
   namespace NodeJS {
     interface Global {
-      signin(): string[];
+      signin(id?: string): string[];
     }
   }
 }
@@ -45,10 +44,10 @@ afterAll(async () => {
 });
 
 // Fake signin function that it's depenedent from the Auth service
-global.signin = () => {
+global.signin = (id?: string) => {
   // Build a JWT payload { id, email }
   const payload = {
-    id: new mongoose.Types.ObjectId().toHexString(),
+    id: id || new mongoose.Types.ObjectId().toHexString(),
     email: "test@test.com",
   };
   // Create the JWT !
