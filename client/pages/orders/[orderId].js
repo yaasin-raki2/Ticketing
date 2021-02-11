@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import StripeCheckout from "react-stripe-checkout";
 import axios from "axios";
-
-import useRequest from "../../hooks/use-request";
+import Router from "next/router";
 
 const OrderShow = ({ order, currentUser }) => {
   const [timeLeft, setTimeLeft] = useState(0);
@@ -34,12 +33,11 @@ const OrderShow = ({ order, currentUser }) => {
 
   const onToken = async (token) => {
     try {
-      const paymentId = await axios.post("/api/payments", {
+      await axios.post("/api/payments", {
         orderId: order.id,
         token: token.id,
       });
-
-      console.log(paymentId.data.id);
+      Router.push("/");
     } catch (err) {
       alert(err);
     }
