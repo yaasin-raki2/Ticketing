@@ -37,7 +37,7 @@ const OrderShow = ({ order, currentUser }) => {
         orderId: order.id,
         token: token.id,
       });
-      Router.push("/");
+      Router.push("/orders");
     } catch (err) {
       alert(err);
     }
